@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 # scope lists the API's that should be accessed.
 # scope is constant therfore all CAPS
@@ -68,9 +69,27 @@ def update_sales_worksheet(data):
     print("Sales Worksheet updated succsfully\n")
 
 
+def calculate_surplus_data(sales_row):
+    """
+    Compare sales with stock and calculate the surplus.
+    -positive surplus indicates waste
+    -negative indicates extrras made due to demand
+    """
+    print("Calculating Surpluss data..\n")
+    stock = SHEET.worksheet('stock').get_all_values()
+    stock_row = stock[-1]
+    print(stock_row)
+   
 
 
+def main():
+    """
+    Run all program functions 
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data ]
+    update_sales_worksheet(sales_data)
+    calculate_surplus_data(sales_data)
 
-data = get_sales_data()
-sales_data = [int(num) for num in data ]
-update_sales_worksheet(sales_data)
+print("Welcomee to Love Sandwiches Data Automation")
+main()
